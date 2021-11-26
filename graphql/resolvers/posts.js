@@ -24,4 +24,7 @@ module.exports = {
       }
     },
   },
+  Mutation: {
+    async createPost(_, { body }, context) {},
+  },
 };

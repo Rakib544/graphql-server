@@ -57,7 +57,7 @@ module.exports = {
     // register part goes here
     async register(
       _,
-      { registerInput: { username, email, password, confirmPassword } }
+      { registerInput: { username, password, confirmPassword, email } }
     ) {
       // TODO Validate the data
       const { valid, errors } = validateRegisteredInput(
@@ -75,7 +75,7 @@ module.exports = {
 
       const user = await User.findOne({ username });
 
-      if (!user) {
+      if (user) {
         throw new UserInputError("Username is taken", {
           errors: {
             username: "This Username is taken",

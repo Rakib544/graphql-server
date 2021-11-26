@@ -4,6 +4,7 @@ const { UserInputError } = require("apollo-server");
 
 const User = require("../../models/User");
 const { SECRET_KEY } = require("../../config");
+const { validateRegisteredInput } = require("../../utils/validators");
 
 module.exports = {
   Mutation: {
@@ -12,6 +13,16 @@ module.exports = {
       { registerInput: { username, email, password, confirmPassword } }
     ) {
       // TODO Validate the data
+      const { valid, errors } = validateRegisteredInput(
+        username,
+        email,
+        password,
+        confirmPassword
+      );
+
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
       // TODO Make sure user does not already exists
       // TODO Has password and create auth token
 

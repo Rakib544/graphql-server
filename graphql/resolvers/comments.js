@@ -1,4 +1,4 @@
-const { UserInputError } = require("apollo-server-errors");
+const { UserInputError, AuthenticationError } = require("apollo-server-errors");
 const Post = require("../../models/Post");
 const checkauth = require("../../utils/checkauth");
 
@@ -45,7 +45,11 @@ module.exports = {
 
           await post.save();
           return post;
+        } else {
+          throw new AuthenticationError("Action not allowed");
         }
+      } else {
+        throw new UserInputError("Post not found");
       }
     },
   },

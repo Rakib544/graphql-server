@@ -62,5 +62,7 @@ module.exports = {
         throw new Error(err);
       }
     },
+
+    // like post
   },
 };

@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server");
 
 const Post = require("../../models/Post");
+const checkauth = require("../../utils/checkauth");
 const checkAuth = require("../../utils/checkauth");
 
 module.exports = {
@@ -64,5 +65,8 @@ module.exports = {
     },
 
     // like post
+    async likePost(_, { postId }, context) {
+      const { username } = checkauth(context);
+    },
   },
 };

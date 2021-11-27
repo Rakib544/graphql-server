@@ -2,55 +2,53 @@ import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
+import { useForm } from "../util/hooks";
 
 const Register = () => {
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+
+  const { handleChange, onSubmit, values } = useForm(registerUser, {
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const initialState = {
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-
   const navigate = useNavigate();
 
-  const [addUser, { loading }] = useMutation(REGISTER_USER, {
+  const [addUser, { loading, error }] = useMutation(REGISTER_USER, {
     update(proxy, result) {
-      console.log(result);
+      // console.log(result);
       navigate("/");
     },
-    onError(err) {
+    onError: (err) => {
+      console.log(err);
       // err.graphQLErrors[0].extensions.exception.errors
       setErrors({});
     },
     variables: values,
   });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  console.log(error);
 
-    if (
-      values.username.trim().length &&
-      values.email.trim().length &&
-      values.password.trim().length &&
-      values.confirmPassword.trim().length
-    ) {
-      addUser();
-    } else {
-      alert("Please fill up the from properly");
-    }
-  };
+  function registerUser() {
+    addUser();
+  }
+
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if (
+  //     values.username.trim().length &&
+  //     values.email.trim().length &&
+  //     values.password.trim().length &&
+  //     values.confirmPassword.trim().length
+  //   ) {
+  //     addUser();
+  //   } else {
+  //     alert("Please fill up the from properly");
+  //   }
+  // };
   return (
     <div className="form-container">
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>

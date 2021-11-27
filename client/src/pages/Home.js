@@ -7,18 +7,18 @@ const Home = () => {
   // console.log(data);
 
   if (loading) {
-    return <Loader active inline="centered" />;
+    return <Loader active inline="centered" style={{ marginTop: "10px" }} />;
   }
 
   return (
     <Grid columns={3} divided>
       <Grid.Row>
-        <h2>Recent Posts</h2>
+        <h2 className="page-title">Recent Posts</h2>
       </Grid.Row>
       <Grid.Row>
         {data?.getPosts &&
           data?.getPosts?.map((post) => (
-            <Grid.Column key={post.id}>
+            <Grid.Column key={post.id} style={{ margin: "15px 0" }}>
               <PostCard post={post} />
             </Grid.Column>
           ))}

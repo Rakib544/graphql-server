@@ -16,6 +16,13 @@ const Register = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const initialState = {
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
   const navigate = useNavigate();
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {

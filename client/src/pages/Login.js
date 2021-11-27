@@ -6,17 +6,6 @@ import { useForm } from "../util/hooks";
 
 const Login = () => {
   const [errors, setErrors] = useState({});
-  // const [values, setValues] = useState({
-  //   username: "",
-  //   email: "",
-  //   password: "",
-  //   confirmPassword: "",
-  // });
-
-  // const handleChange = (e) => {
-  //   setValues({ ...values, [e.target.name]: e.target.value });
-  // };
-
   const navigate = useNavigate();
 
   const { handleChange, onSubmit, values } = useForm(loginUserCallback, {
@@ -60,7 +49,7 @@ const Login = () => {
           onChange={handleChange}
         />
         <Button type="submit" primary>
-          Submit
+          Login
         </Button>
       </Form>
       {Object.keys(errors).length > 0 && (
@@ -77,20 +66,8 @@ const Login = () => {
 };
 
 const LOGIN_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ) {
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       id
       email
       username

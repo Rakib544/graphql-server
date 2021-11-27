@@ -19,6 +19,7 @@ const Login = () => {
       navigate("/");
     },
     onError(err) {
+      console.log(err);
       // err.graphQLErrors[0].extensions.exception.errors
       setErrors({});
     },

@@ -26,15 +26,15 @@ const SinglePost = () => {
     navigate("/");
   };
 
-  const {
-    username,
-    createdAt,
-    body,
-    likes,
-    // comments,
-    likeCount,
-    commentCount,
-  } = data?.getPost;
+  // const {
+  //   username,
+  //   createdAt,
+  //   body,
+  //   likes,
+  //   // comments,
+  //   likeCount,
+  //   commentCount,
+  // } = data?.getPost;
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -52,13 +52,20 @@ const SinglePost = () => {
       <Grid.Column width={10}>
         <Card fluid>
           <Card.Content>
-            <Card.Header>{username}</Card.Header>
-            <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
-            <Card.Description>{body}</Card.Description>
+            <Card.Header>{data.getPost.username}</Card.Header>
+            <Card.Meta>{moment(data.getPost.createdAt).fromNow()}</Card.Meta>
+            <Card.Description>{data.getPost.body}</Card.Description>
           </Card.Content>
           <hr />
           <Card.Content extra>
-            <LikeButton user={user} post={{ id, likes, likeCount }} />
+            <LikeButton
+              user={user}
+              post={{
+                id,
+                likes: data.getPost.likes,
+                likeCount: data.getPost.likeCount,
+              }}
+            />
             <Button
               as="div"
               labelPosition="right"
@@ -68,10 +75,10 @@ const SinglePost = () => {
                 <Icon name="comments" />
               </Button>
               <Label basic color="blue" pointing="left">
-                {commentCount}
+                {data.getPost.commentCount}
               </Label>
             </Button>
-            {user && user.username === username && (
+            {user && user.username === data.getPost.username && (
               <DeleteButton postId={id} callback={deletePostCallback} />
             )}
           </Card.Content>

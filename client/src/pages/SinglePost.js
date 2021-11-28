@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 import moment from "moment";
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Grid, Icon, Image, Label } from "semantic-ui-react";
+import DeleteButton from "../components/DeleteButton";
 import LikeButton from "../components/LikeButton";
 import { AuthContext } from "../context/auth";
 
@@ -10,16 +11,23 @@ const SinglePost = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
 
-  const { data, loading } = useQuery(FETCH_POST_QUERY, {
+  const { data, loading, error } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId: id,
     },
   });
+  console.log(error);
+
+  const navigate = useNavigate();
+
+  const deletePostCallback = () => {
+    navigate("/");
+  };
 
   const {
-    body,
-    createdAt,
     username,
+    createdAt,
+    body,
     likes,
     comments,
     likeCount,
@@ -34,7 +42,7 @@ const SinglePost = () => {
     <Grid.Row>
       <Grid.Column width={2}>
         <Image
-          floated="right"
+          float="right"
           size="mini"
           src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
         />
@@ -61,6 +69,9 @@ const SinglePost = () => {
                 {commentCount}
               </Label>
             </Button>
+            {user && user.username === username && (
+              <DeleteButton postId={id} callback={deletePostCallback} />
+            )}
           </Card.Content>
         </Card>
       </Grid.Column>

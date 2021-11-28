@@ -39,7 +39,7 @@ const DeleteButton = ({ postId, commentId, callback }) => {
     <>
       <Popup
         inverted
-        content="Delete post"
+        content={commentId ? "Delete Comment" : "Delete post"}
         trigger={
           <Button
             as="div"

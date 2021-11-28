@@ -25,27 +25,35 @@ const PostForm = () => {
     },
   });
 
-  console.log(error);
-
   function createPostCallback() {
     createPost();
   }
 
   return (
-    <Form onSubmit={onSubmit}>
-      <h1>Create a Post: </h1>
-      <Form.Field>
-        <Form.Input
-          placeholder="Write Post..."
-          name="body"
-          onChange={handleChange}
-          value={values.body}
-        />
-        <Button type="submit" primary>
-          Submit
-        </Button>
-      </Form.Field>
-    </Form>
+    <>
+      <Form onSubmit={onSubmit}>
+        <h1>Create a Post: </h1>
+        <Form.Field>
+          <Form.Input
+            placeholder="Write Post..."
+            name="body"
+            onChange={handleChange}
+            value={values.body}
+            error={error ? true : false}
+          />
+          <Button type="submit" primary>
+            Submit
+          </Button>
+        </Form.Field>
+      </Form>
+      {error && (
+        <div className="ui error message">
+          <ul className="list">
+            <li>{error.graphQLErrors[0].message}</li>
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 

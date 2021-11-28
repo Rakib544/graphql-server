@@ -16,6 +16,8 @@ const SinglePost = () => {
       postId: id,
     },
   });
+  console.log(id);
+  console.log(data);
   console.log(error);
 
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ const SinglePost = () => {
     createdAt,
     body,
     likes,
-    comments,
+    // comments,
     likeCount,
     commentCount,
   } = data?.getPost;

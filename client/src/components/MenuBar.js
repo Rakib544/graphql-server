@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
+import { AuthContext } from "../context/auth";
 
 function MenuBar() {
+  const { user, logout } = useContext(AuthContext);
   const [activeItem, setActiveItem] = useState("home");
 
   const pathname = window.location.pathname;
@@ -11,7 +13,7 @@ function MenuBar() {
 
   useEffect(() => {
     setActiveItem(path);
-  }, [path]);
+  }, [path, pathname]);
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
@@ -27,25 +29,26 @@ function MenuBar() {
         />
 
         <Menu.Menu position="right">
-          <Menu.Item
-            name="login"
-            active={activeItem === "login"}
-            onClick={handleItemClick}
-            as={Link}
-            to="/login"
-          />
-          <Menu.Item
-            name="register"
-            active={activeItem === "register"}
-            onClick={handleItemClick}
-            as={Link}
-            to="/register"
-          />
-          <Menu.Item
-            name="logout"
-            active={activeItem === "logout"}
-            onClick={handleItemClick}
-          />
+          {user ? (
+            <Menu.Item name="logout" onClick={logout} />
+          ) : (
+            <>
+              <Menu.Item
+                name="login"
+                active={activeItem === "login"}
+                onClick={handleItemClick}
+                as={Link}
+                to="/login"
+              />
+              <Menu.Item
+                name="register"
+                active={activeItem === "register"}
+                onClick={handleItemClick}
+                as={Link}
+                to="/register"
+              />
+            </>
+          )}
         </Menu.Menu>
       </Menu>
     </div>

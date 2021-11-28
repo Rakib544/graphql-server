@@ -16,8 +16,6 @@ const SinglePost = () => {
       postId: id,
     },
   });
-  console.log(id);
-  console.log(data);
   console.log(error);
 
   const navigate = useNavigate();
@@ -25,16 +23,6 @@ const SinglePost = () => {
   const deletePostCallback = () => {
     navigate("/");
   };
-
-  // const {
-  //   username,
-  //   createdAt,
-  //   body,
-  //   likes,
-  //   // comments,
-  //   likeCount,
-  //   commentCount,
-  // } = data?.getPost;
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -83,6 +71,18 @@ const SinglePost = () => {
             )}
           </Card.Content>
         </Card>
+        {data?.getPost?.comments?.map((comment) => (
+          <Card fluid key={comment.id}>
+            <Card.Content>
+              {user && user.username === comment.username && (
+                <DeleteButton postId={id} commentId={comment.id} />
+              )}
+              <Card.Header>{comment.username}</Card.Header>
+              <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
+              <Card.Description>{comment.body}</Card.Description>
+            </Card.Content>
+          </Card>
+        ))}
       </Grid.Column>
     </Grid.Row>
   );
